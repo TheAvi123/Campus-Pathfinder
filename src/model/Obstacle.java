@@ -12,6 +12,11 @@ public class Obstacle extends Shape {
         super(color, 0, 0, 0, 0);
     }
 
+    public Obstacle(int x, int y, int x2, int y2) {
+        super(color, x, y, x2, y2);
+    }
+
+
     public void draw(Graphics g) {
         Color save = g.getColor();
         g.setColor(color);

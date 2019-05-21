@@ -1,5 +1,7 @@
 package ui.tools;
 
+import exceptions.PointInObstacleException;
+import exceptions.PointOutOfBoundsException;
 import model.EndPoint;
 import model.Path;
 import model.gridPathfinding.Block;
@@ -13,6 +15,7 @@ import java.awt.event.MouseEvent;
 
 public class LineTool extends Tool {
 
+    private DrawingEditor editor;
     private Path path;
     private Point startPoint;
     private Point endPoint;
@@ -29,6 +32,7 @@ public class LineTool extends Tool {
     public LineTool(DrawingEditor editor, JComponent parent) {
         super(editor, parent);
         clickOne = 1;
+        this.editor = editor;
         path = null;
         start = null;
         end = null;
@@ -50,23 +54,31 @@ public class LineTool extends Tool {
     }
 
     @Override
-    public void mousePressedInDrawingArea(MouseEvent e) {
+    public void mousePressedInDrawingArea(MouseEvent e) throws PointOutOfBoundsException, PointInObstacleException {
 
         if (clickOne == 1) {
+            if (e.getX() > editor.WIDTH || e.getY() > editor.HEIGHT) {
+                throw new PointOutOfBoundsException("Point out of bounds.");
+            } else if (editor.getObstacleInDrawing(e.getPoint()) != null) {
+                throw new PointInObstacleException("Point inside an obstacle");
+            }
             x = e.getX();
             y = e.getY();
             start = new EndPoint(e.getPoint(), editor);
             startPoint = e.getPoint();
             startBlock = editor.getBlockAtPoint(e.getPoint());
             editor.addToPaths(start);
-
             clickOne = 2;
 
         } else if (clickOne == 2) {
-            path = new Path(x,y,e.getX(),e.getY());
+            if (e.getX() > editor.WIDTH || e.getY() > editor.HEIGHT) {
+                throw new PointOutOfBoundsException("Point out of bounds.");
+            } else if (editor.getObstacleInDrawing(e.getPoint()) != null) {
+                throw new PointInObstacleException("Point inside an obstacle");
+            }
+            path = new Path(x, y, e.getX(), e.getY());
             end = new EndPoint(e.getPoint(), editor);
             editor.addToPaths(end);
-
             //Point Pathfinder
             endPoint = e.getPoint();
             editor.drawShortestPath(startPoint, endPoint);

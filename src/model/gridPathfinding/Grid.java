@@ -1,5 +1,6 @@
 package model.gridPathfinding;
 
+import exceptions.NoPathException;
 import model.Path;
 import ui.DrawingEditor;
 
@@ -111,15 +112,18 @@ public class Grid {
 
     public void drawFinalPath(Block startBlock, Block targetBlock){
         pathfinder = new GridPathfinder(this, startBlock, targetBlock);
-        pathfinder.findPath();
-        ArrayList<Block> blocks = pathfinder.retracePath();
-
-        Block currentBlock = startBlock;
-        for(int i = 0; i < blocks.size(); i++) {
-            Path p = new Path(currentBlock.getX() + blockRadius, currentBlock.getY() + blockRadius,
-                    blocks.get(i).getX() + blockRadius, blocks.get(i).getY() + blockRadius);
-            editor.addToGrid(p);
-            currentBlock = blocks.get(i);
+        try {
+            pathfinder.findPath();
+            ArrayList<Block> blocks = pathfinder.retracePath();
+            Block currentBlock = startBlock;
+            for(int i = 0; i < blocks.size(); i++) {
+                Path p = new Path(currentBlock.getX() + blockRadius, currentBlock.getY() + blockRadius,
+                        blocks.get(i).getX() + blockRadius, blocks.get(i).getY() + blockRadius);
+                editor.addToGrid(p);
+                currentBlock = blocks.get(i);
+            }
+        } catch (NoPathException e) {
+                System.out.println("No Path Found for Given Points");
         }
     }
 }

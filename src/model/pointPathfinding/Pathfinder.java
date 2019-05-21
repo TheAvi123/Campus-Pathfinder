@@ -1,5 +1,6 @@
 package model.pointPathfinding;
 
+import exceptions.NoPathException;
 import model.Obstacle;
 import model.Path;
 import model.Shape;
@@ -36,7 +37,7 @@ public class Pathfinder {
         closedSet = new HashSet<>();
     }
 
-    public void findPath(){
+    public void findPath() throws NoPathException {
 
         findKeyPoints();
 
@@ -76,7 +77,7 @@ public class Pathfinder {
                 }
             }
         }
-        System.out.println("No Path Found");
+        throw new NoPathException("No Path Found");
     }
 
     public void findKeyPoints(){

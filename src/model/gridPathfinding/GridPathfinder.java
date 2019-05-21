@@ -1,5 +1,7 @@
 package model.gridPathfinding;
 
+import exceptions.NoPathException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,7 +28,7 @@ public class GridPathfinder {
     }
 
 
-        public void findPath(){
+        public void findPath() throws NoPathException {
 
         openBlocks.add(startBlock);
 
@@ -65,6 +67,7 @@ public class GridPathfinder {
                 }
             }
         }
+        throw new NoPathException("No Path Found");
     }
 
     public ArrayList<Block> retracePath(){
