@@ -5,7 +5,6 @@ import java.util.Objects;
 
 public abstract class Shape {
     protected Color color;
-    private boolean selected;
     protected int x;
     protected int y;
     protected int x2; // width for obstacle
@@ -23,12 +22,6 @@ public abstract class Shape {
 
     public abstract boolean contains(Point p);
 
-    public Color getColor() {
-        return color;
-    }
-    public boolean isSelected() {
-        return selected;
-    }
     public int getX() {
         return x;
     }

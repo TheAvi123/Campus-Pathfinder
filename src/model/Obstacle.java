@@ -16,13 +16,6 @@ public class Obstacle extends Shape {
         super(color, 0, 0, 0, 0);
     }
 
-    public void setParam(int x, int y, int w, int h) {
-        this.x = x;
-        this.y = y;
-        x2 = w;
-        y2 = h;
-    }
-
     public void draw(Graphics g) {
         Color save = g.getColor();
         g.setColor(color);
@@ -46,28 +39,22 @@ public class Obstacle extends Shape {
     public void setEndBound(Point p) {
         int xEnd = (int) p.getX();
         int yEnd = (int) p.getY();
-//        System.out.println("xpos  " + xEnd + "\nypos  " + yEnd + "\nx  " + x + "\ny  " + y + "\n initialX " + initalX);
         if (initalX < xEnd && initalY < yEnd) {
-//            System.out.println("\n bottom right");
             x2 = xEnd - x; // width
             y2 = yEnd - y; // height
         }
 
         else if (initalX > xEnd && initalY < yEnd) {
-//            System.out.println("\n bottom left");
-//            x2 += x - xEnd;
             x2 = initalX - xEnd;
             x = xEnd;
             y2 = yEnd - y;
         }
         else if(initalX < xEnd && initalY > yEnd) {
-//            System.out.println("\n top right");
             x2 = xEnd - x; // width
             y = yEnd;
             y2 = initalY - yEnd;  //height
         }
         else if (initalX > xEnd && initalY > yEnd) {
-//            System.out.println("\n top left");
             x = xEnd;
             y = yEnd;
             x2 = initalX - xEnd;

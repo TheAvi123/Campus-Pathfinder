@@ -50,8 +50,6 @@ public class DeleteObstacleTool extends Tool {
         }
     }
 
-
-
     private class DeleteToolClickHandler implements ActionListener {
 
         // EFFECTS: sets active tool to the delete tool

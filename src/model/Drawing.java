@@ -19,6 +19,8 @@ public class Drawing extends JPanel {
 
     public List<Shape> getShapes() { return this.shapes; }
 
+    public List<Shape> getGridBlocks() { return this.gridBlocks; }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);

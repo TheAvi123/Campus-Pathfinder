@@ -39,6 +39,7 @@ public class Grid {
 
     public void drawGrid(){
         editor.clearGrid();
+        //Uncomment Following Code to Render Grid
 //        for(int x = 0; x < gridSizeX; x++){
 //            for(int y = 0; y < gridSizeY; y++){
 //                editor.addToGrid(grid[x][y]);
@@ -50,7 +51,7 @@ public class Grid {
         for(int x = 0; x < gridSizeX; x++){
             for(int y = 0; y < gridSizeY; y++){
                 Point p = new Point((x * blockDiameter),(y * blockDiameter));
-                boolean b = false;
+                boolean b;
                 b = checkObstacleInBlock(p);
                 grid[x][y] = new Block(b, p, blockRadius);
             }

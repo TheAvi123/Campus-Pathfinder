@@ -20,13 +20,11 @@ import java.util.List;
 
 // The ShortestPath GUI Application
 public class DrawingEditor extends JFrame {
-    private static final String TITLE = "ShortestPath";
     private static final int WIDTH = 500;
     private static final int HEIGHT = 500;
     private List<Tool> tools;
     private Tool activeTool;
     private Drawing currentDrawing;
-    private Drawing gridDrawing;
     private Grid grid;
 
     public static void main(String[] args) {
@@ -37,6 +35,13 @@ public class DrawingEditor extends JFrame {
         initializeFields();
         initializeGraphics();
         initializeInteraction();
+    }
+
+    private void initializeFields() {
+        activeTool = null;
+        currentDrawing = null;
+        tools = new ArrayList<>();
+        grid = new Grid(this, WIDTH, HEIGHT);
     }
 
     private void initializeGraphics() {
@@ -78,12 +83,11 @@ public class DrawingEditor extends JFrame {
         activeTool = aTool;
     }
 
-    private void initializeFields() {
-        activeTool = null;
-        currentDrawing = null;
-        gridDrawing = null;
-        tools = new ArrayList<>();
-        grid = new Grid(this, WIDTH, HEIGHT);
+    public void addNewDrawing() {
+        Drawing newDrawing = new Drawing();
+        currentDrawing = newDrawing;
+        add(newDrawing, BorderLayout.CENTER);
+        validate();
     }
 
     // MODIFIES: this
@@ -93,14 +97,6 @@ public class DrawingEditor extends JFrame {
         addMouseListener(dml);
         addMouseMotionListener(dml);
     }
-
-    public void addNewDrawing() {
-        Drawing newDrawing = new Drawing();
-        currentDrawing = newDrawing;
-        add(newDrawing, BorderLayout.CENTER);
-        validate();
-    }
-
 
     // MODIFIES: this
     // EFFECTS:  adds given Shape to currentDrawing
