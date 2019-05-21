@@ -33,8 +33,8 @@ public class Pathfinder {
         while(openBlocks.size() > 0) {
             Block currentBlock = openBlocks.get(0);
             for(int i = 1; i < openBlocks.size(); i++){
-                if( (openBlocks.get(i).fCost < currentBlock.fCost)
-                        || (openBlocks.get(i).fCost == currentBlock.fCost) && (openBlocks.get(i).hCost < currentBlock.hCost) ){
+                if( (openBlocks.get(i).getfCost() < currentBlock.getfCost())
+                        || (openBlocks.get(i).getfCost() == currentBlock.getfCost()) && (openBlocks.get(i).hCost < currentBlock.hCost) ){
                     currentBlock = openBlocks.get(i);
                 }
             }
@@ -56,7 +56,7 @@ public class Pathfinder {
                 int newMoveCostToNeighbor = currentBlock.gCost + getDistanceBetween(currentBlock, neighbor);
                 if (newMoveCostToNeighbor < neighbor.gCost || !openBlocks.contains(neighbor)){
                     neighbor.gCost = newMoveCostToNeighbor;
-                    neighbor.fCost = getDistanceBetween(neighbor, targetBlock);
+                    neighbor.hCost = getDistanceBetween(neighbor, targetBlock);
                     neighbor.parentBlock = currentBlock;
 
                     if (!openBlocks.contains(neighbor)){

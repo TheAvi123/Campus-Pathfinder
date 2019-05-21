@@ -16,7 +16,6 @@ public class Block extends Shape {
     int blockRadius;
 
     public int gCost, hCost;
-    public int fCost = gCost + hCost;
     public Block parentBlock;
 
     public Block (boolean isBlocked, Point p , int blockRadius){
@@ -50,6 +49,10 @@ public class Block extends Shape {
 
     public int getY(){
         return y;
+    }
+
+    public int getfCost(){
+        return gCost + hCost;
     }
 
     @Override
