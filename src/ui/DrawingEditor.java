@@ -4,8 +4,9 @@ import model.Drawing;
 import model.Obstacle;
 import model.Path;
 import model.Shape;
-import model.pathfinding.Block;
-import model.pathfinding.Grid;
+import model.gridPathfinding.Block;
+import model.gridPathfinding.Grid;
+import model.pointPathfinding.Pathfinder;
 import ui.tools.DeleteObstacleTool;
 import ui.tools.LineTool;
 import ui.tools.ObstacleTool;
@@ -104,22 +105,30 @@ public class DrawingEditor extends JFrame {
         currentDrawing.addShape(s);
     }
 
-    public void addToGrid(Shape s) {
-        currentDrawing.addBlock(s);
-    }
-
     //MODIFIES: this
     // EFFECTS: removes given shape from currentDrawing
     public void removeFromDrawing(Shape s) {
         currentDrawing.removeShape(s);
     }
 
-    public void clearGrid() {
-        currentDrawing.clearGrid();
-    }
-
     public Obstacle getObstacleInDrawing(Point p) {
         return currentDrawing.getShapeAtPoint(p);
+    }
+
+    //GRID PATHFINDER METHODS
+
+    public Grid returnEmptyGrid(){
+        Grid g = new Grid(this, WIDTH, HEIGHT);
+        g.createEmptyGrid();
+        return g;
+    }
+
+    public void addToGrid(Shape s) {
+        currentDrawing.addBlock(s);
+    }
+
+    public void clearGrid() {
+        currentDrawing.clearGrid();
     }
 
     public void updateGrid(){
@@ -130,19 +139,38 @@ public class DrawingEditor extends JFrame {
         return grid.blockAtPosition(p);
     }
 
-    public boolean checkPathCollision(Path p){
-        return currentDrawing.collide(p);
-    }
-
     public void drawFinalPath(Block startBlock, Block targetBlock){
         grid.drawFinalPath(startBlock, targetBlock);
     }
 
-    public Grid returnEmptyGrid(){
-        Grid g = new Grid(this, WIDTH, HEIGHT);
-        g.createEmptyGrid();
-        return g;
+    //METHODS FOR POINT PATHFINDER
+
+    public boolean checkPathCollision(Path p){
+        return currentDrawing.collide(p);
     }
+
+    public ArrayList<Shape> returnShapesInDrawing(){
+        return currentDrawing.getShapes();
+    }
+
+    public void addToPaths(Shape p) {
+        currentDrawing.addPath(p);
+    }
+
+    public void clearPaths() {
+        currentDrawing.clearPaths();
+    }
+
+    public void drawShortestPath(Point start, Point end){
+        Pathfinder pathfinder = new Pathfinder(start, end, this);
+        pathfinder.findPath();
+        ArrayList<Point> points = pathfinder.retracePath();
+        for(int i = 1; i < points.size(); i++) {
+            addToPaths(new Path(points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y));
+        }
+    }
+
+    //CLICK DETECTION METHODS
 
     // EFFECTS: if activeTool != null, then mousePressedInDrawingArea is invoked on activeTool, depends on the
     //          type of the tool which is currently activeTool

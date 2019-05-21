@@ -1,11 +1,11 @@
-package model.pathfinding;
+package model.gridPathfinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Pathfinder {
+public class GridPathfinder {
 
     Grid grid;
 
@@ -15,7 +15,7 @@ public class Pathfinder {
     ArrayList<Block> openBlocks;
     Set<Block> closedBlocks;
 
-    public Pathfinder(Grid grid, Block startBlock, Block targetBlock){
+    public GridPathfinder(Grid grid, Block startBlock, Block targetBlock){
         this.grid = grid;
         this.startBlock = startBlock;
         this.targetBlock = targetBlock;
@@ -26,7 +26,7 @@ public class Pathfinder {
     }
 
 
-        void findPath(){
+        public void findPath(){
 
         openBlocks.add(startBlock);
 

@@ -1,4 +1,4 @@
-package model.pathfinding;
+package model.gridPathfinding;
 
 import model.Shape;
 

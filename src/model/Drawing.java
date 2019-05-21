@@ -3,32 +3,38 @@ package model;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Drawing extends JPanel {
 
-    private List<Shape> shapes;
-    private List<Shape> gridBlocks;
+    private ArrayList<Shape> shapes;
+    private ArrayList<Shape> gridBlocks;
+    private ArrayList<Shape> paths;
 
     public Drawing() {
         super();
         shapes = new ArrayList<Shape>();
         gridBlocks =  new ArrayList<Shape>();
+        paths =  new ArrayList<Shape>();
         setBackground(Color.white);
     }
 
-    public List<Shape> getShapes() { return this.shapes; }
+    public ArrayList<Shape> getShapes() { return this.shapes; }
 
-    public List<Shape> getGridBlocks() { return this.gridBlocks; }
+    public ArrayList<Shape> getGridBlocks() { return this.gridBlocks; }
+
+    public ArrayList<Shape> getPaths() { return this.paths; }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        for (Shape shape : shapes) {
+            shape.draw(g);
+        }
         for (Shape block : gridBlocks) {
             block.draw(g);
         }
-        for (Shape shape : shapes) {
-            shape.draw(g);
+        for (Shape path : paths) {
+            path.draw(g);
         }
     }
 
@@ -42,6 +48,11 @@ public class Drawing extends JPanel {
         gridBlocks.add(shape);
     }
 
+    public void addPath(Shape shape) {
+        paths.add(shape);
+    }
+
+
     // MODIFIES: this
     // EFFECTS:  removes shape from the drawing
     public void removeShape(Shape shape) {
@@ -52,6 +63,11 @@ public class Drawing extends JPanel {
     public void clearGrid() {
         gridBlocks = new ArrayList<Shape>();
         //repaint();
+    }
+
+    public void clearPaths() {
+        paths = new ArrayList<Shape>();
+        repaint();
     }
 
     public Obstacle getShapeAtPoint(Point p) {
@@ -67,17 +83,6 @@ public class Drawing extends JPanel {
         for (Shape s : shapes) {
             if (Obstacle.class == s.getClass()) {
                 if (p.intersects( (Obstacle) s)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    public boolean collide(Point p) {
-        for (Shape s : shapes) {
-            if (Obstacle.class == s.getClass()) {
-                if (s.contains(p)) {
                     return true;
                 }
             }

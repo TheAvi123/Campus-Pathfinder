@@ -4,13 +4,9 @@ import java.awt.*;
 
 public class Obstacle extends Shape {
 
-    private static final Color color = Color.BLACK;
+    private static final Color color = new Color(0,0,0, 150);
     int initalX = 0;
     int initalY = 0;
-
-    public Obstacle(int x, int y, int w, int h) {
-        super(color, x, y, w, h);
-    }
 
     public Obstacle() {
         super(color, 0, 0, 0, 0);
@@ -20,6 +16,8 @@ public class Obstacle extends Shape {
         Color save = g.getColor();
         g.setColor(color);
         g.fillRect(x, y, x2, y2);
+        g.setColor(Color.BLACK);
+        g.drawRect(x, y, x2, y2);
         g.setColor(save);
     }
 

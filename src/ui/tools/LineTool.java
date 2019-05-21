@@ -2,10 +2,11 @@ package ui.tools;
 
 import model.EndPoint;
 import model.Path;
-import model.pathfinding.Block;
+import model.gridPathfinding.Block;
 import ui.DrawingEditor;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,6 +14,8 @@ import java.awt.event.MouseEvent;
 public class LineTool extends Tool {
 
     private Path path;
+    private Point startPoint;
+    private Point endPoint;
     private EndPoint start;
     private EndPoint end;
     private int clickOne;
@@ -53,29 +56,35 @@ public class LineTool extends Tool {
             x = e.getX();
             y = e.getY();
             start = new EndPoint(e.getPoint(), editor);
+            startPoint = e.getPoint();
             startBlock = editor.getBlockAtPoint(e.getPoint());
-            editor.addToDrawing(start);
+            editor.addToPaths(start);
+
             clickOne = 2;
 
         } else if (clickOne == 2) {
             path = new Path(x,y,e.getX(),e.getY());
             end = new EndPoint(e.getPoint(), editor);
-            targetBlock = editor.getBlockAtPoint(e.getPoint());
-            if(!editor.checkPathCollision(path)){
-                editor.addToDrawing(path);
+            editor.addToPaths(end);
 
-            } else {
-                editor.drawFinalPath(startBlock, targetBlock);
-            }
-            editor.addToDrawing(end);
+            //Point Pathfinder
+            endPoint = e.getPoint();
+            editor.drawShortestPath(startPoint, endPoint);
+            //Grid Pathfinder
+//            targetBlock = editor.getBlockAtPoint(e.getPoint());
+//            if(!editor.checkPathCollision(path)){
+//                editor.addToPaths(path);
+//            } else {
+//                editor.drawFinalPath(startBlock, targetBlock);
+//            }
+
             clickOne = 3;
 
         } else if (clickOne == 3) {  // can just be else
-            editor.removeFromDrawing(path);
-            editor.removeFromDrawing(start);
-            editor.removeFromDrawing(end);
-            clickOne = 1;
             editor.updateGrid();
+            editor.clearPaths();
+
+            clickOne = 1;
         }
     }
 

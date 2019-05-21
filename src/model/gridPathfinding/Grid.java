@@ -1,4 +1,4 @@
-package model.pathfinding;
+package model.gridPathfinding;
 
 import model.Path;
 import ui.DrawingEditor;
@@ -15,7 +15,7 @@ public class Grid {
     int blockDiameter = blockRadius * 2;
     int worldWidth, worldHeight;
     int gridSizeX, gridSizeY;
-    Pathfinder pathfinder;
+    GridPathfinder pathfinder;
 
     public Grid(DrawingEditor editor, int width, int height){
         this.editor = editor;
@@ -110,7 +110,7 @@ public class Grid {
     }
 
     public void drawFinalPath(Block startBlock, Block targetBlock){
-        pathfinder = new Pathfinder(this, startBlock, targetBlock);
+        pathfinder = new GridPathfinder(this, startBlock, targetBlock);
         pathfinder.findPath();
         ArrayList<Block> blocks = pathfinder.retracePath();
 
