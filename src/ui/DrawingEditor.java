@@ -1,5 +1,8 @@
 package ui;
 
+import exceptions.NoPathException;
+import exceptions.PointInObstacleException;
+import exceptions.PointOutOfBoundsException;
 import model.Drawing;
 import model.Obstacle;
 import model.Path;
@@ -24,8 +27,8 @@ import java.util.List;
 
 // The ShortestPath GUI Application
 public class DrawingEditor extends JFrame {
-    private static final int WIDTH = 500;
-    private static final int HEIGHT = 500;
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 500;
     private List<Tool> tools;
     private Tool activeTool;
     private Drawing currentDrawing;
@@ -50,14 +53,24 @@ public class DrawingEditor extends JFrame {
 
     private void initializeGraphics() {
         setLayout(new BorderLayout());
-        setMinimumSize(new Dimension(WIDTH + 18, HEIGHT + 125));
+        setMinimumSize(new Dimension(WIDTH + 19, HEIGHT + 126));
+        setResizable(false);
         createTools();
         addNewDrawing();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+        formCanvasBorders();
         grid.createEmptyGrid();
         grid.drawGrid();
+    }
+
+    // MODIFIES: this
+    // EFFECTS:  initializes a DrawingMouseListener to be used in the JFrame
+    private void initializeInteraction() {
+        DrawingMouseListener dml = new DrawingMouseListener();
+        addMouseListener(dml);
+        addMouseMotionListener(dml);
     }
 
     // MODIFIES: this
@@ -94,12 +107,11 @@ public class DrawingEditor extends JFrame {
         validate();
     }
 
-    // MODIFIES: this
-    // EFFECTS:  initializes a DrawingMouseListener to be used in the JFrame
-    private void initializeInteraction() {
-        DrawingMouseListener dml = new DrawingMouseListener();
-        addMouseListener(dml);
-        addMouseMotionListener(dml);
+    private void formCanvasBorders(){
+        currentDrawing.addShape(new Obstacle(0, 0, 1, HEIGHT + 1));
+        currentDrawing.addShape(new Obstacle(0, 0, WIDTH + 1, 1));
+        currentDrawing.addShape(new Obstacle(0, HEIGHT - 1, WIDTH, 1));
+        currentDrawing.addShape(new Obstacle(WIDTH - 1, 0, 1, HEIGHT));
     }
 
     // MODIFIES: this
@@ -166,22 +178,34 @@ public class DrawingEditor extends JFrame {
 
     public void drawShortestPath(Point start, Point end){
         Pathfinder pathfinder = new Pathfinder(start, end, this);
-        pathfinder.findPath();
-        ArrayList<Point> points = pathfinder.retracePath();
-        for(int i = 1; i < points.size(); i++) {
-            addToPaths(new Path(points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y));
+        try {
+            pathfinder.findPath();
+            ArrayList<Point> points = pathfinder.retracePath();
+            for(int i = 1; i < points.size(); i++) {
+                addToPaths(new Path(points.get(i-1).x, points.get(i-1).y, points.get(i).x, points.get(i).y));
+            }
+        } catch (NoPathException e) {
+            System.out.println("No Path Found for Given Points");
         }
+
     }
 
     //CLICK DETECTION METHODS
 
     // EFFECTS: if activeTool != null, then mousePressedInDrawingArea is invoked on activeTool, depends on the
     //          type of the tool which is currently activeTool
-    private void handleMousePressed(MouseEvent e)  {
-        if (activeTool != null) {
-            activeTool.mousePressedInDrawingArea(e);
+    private void handleMousePressed(MouseEvent e) {
+        try {
+            if (activeTool != null) {
+                activeTool.mousePressedInDrawingArea(e);
+            }
+            repaint();
+        } catch (PointInObstacleException exception) {
+            System.out.println("Given Point is Inside an Obstacle");
+        } catch (PointOutOfBoundsException exception) {
+            System.out.println("Given Point is Out of Bounds");
         }
-        repaint();
+
     }
 
     // EFFECTS: if activeTool != null, then mouseReleasedInDrawingArea is invoked on activeTool, depends on the

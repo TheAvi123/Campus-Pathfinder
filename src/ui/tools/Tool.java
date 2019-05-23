@@ -1,5 +1,7 @@
 package ui.tools;
 
+import exceptions.PointInObstacleException;
+import exceptions.PointOutOfBoundsException;
 import ui.DrawingEditor;
 
 import javax.swing.*;
@@ -56,7 +58,7 @@ public abstract class Tool {
     }
 
     // EFFECTS: default behaviour does nothing
-    public void mousePressedInDrawingArea(MouseEvent e) {}
+    public void mousePressedInDrawingArea(MouseEvent e) throws PointOutOfBoundsException, PointInObstacleException {}
 
     // EFFECTS: default behaviour does nothing
     public void mouseReleasedInDrawingArea(MouseEvent e) {}
