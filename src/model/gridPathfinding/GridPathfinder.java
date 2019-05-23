@@ -37,24 +37,24 @@ public class GridPathfinder {
                         || (openBlocks.get(i).getfCost() == currentBlock.getfCost()) && (openBlocks.get(i).hCost < currentBlock.hCost) ){
                     currentBlock = openBlocks.get(i);
                 }
-            }
+            } // by the end of this loop current block has the smallest possible cost
             openBlocks.remove(currentBlock);
             closedBlocks.add(currentBlock);
 
             if (currentBlock == targetBlock) {
-                retracePath();
-                return;
+                retracePath(); // whats the point of just calling this, the array that this method returns doesn't go anywhere
+                return; // if you've reached ur goal then return
             }
 
             ArrayList<Block> neighbors = grid.findAdjacentBlocks(currentBlock);
             for (Block neighbor : neighbors) {
 
                 if(neighbor.isBlocked || closedBlocks.contains(neighbor)){
-                    continue;
+                    continue; // this is really cool
                 }
 
                 int newMoveCostToNeighbor = currentBlock.gCost + getDistanceBetween(currentBlock, neighbor);
-                if (newMoveCostToNeighbor < neighbor.gCost || !openBlocks.contains(neighbor)){
+                if (newMoveCostToNeighbor < neighbor.gCost || !openBlocks.contains(neighbor)){ // when would the first part of this or statement ever be true?
                     neighbor.gCost = newMoveCostToNeighbor;
                     neighbor.hCost = getDistanceBetween(neighbor, targetBlock);
                     neighbor.parentBlock = currentBlock;

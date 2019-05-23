@@ -1,5 +1,7 @@
 package ui.tools;
 
+import JSON.JsonFileIO;
+import JSON.Jsonifier;
 import model.Obstacle;
 import ui.DrawingEditor;
 
@@ -7,6 +9,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class DeleteObstacleTool extends Tool {
 
@@ -45,6 +48,12 @@ public class DeleteObstacleTool extends Tool {
     public void mouseReleasedInDrawingArea(MouseEvent e) {
         if (obstacletoDelete != null) {
             editor.removeFromDrawing(obstacletoDelete);
+            System.out.println(Jsonifier.shapeToJson(obstacletoDelete));
+            try {
+                JsonFileIO.remove(obstacletoDelete);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             obstacletoDelete = null;
             editor.updateGrid();
         }

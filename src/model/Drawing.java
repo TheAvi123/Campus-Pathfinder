@@ -1,7 +1,16 @@
 package model;
 
+import JSON.JsonFileIO;
+import JSON.Jsonifier;
+import org.json.JSONArray;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Drawing extends JPanel {
@@ -12,7 +21,11 @@ public class Drawing extends JPanel {
 
     public Drawing() {
         super();
-        shapes = new ArrayList<Shape>();
+        try {
+            shapes = (ArrayList) JsonFileIO.read();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         gridBlocks =  new ArrayList<Shape>();
         paths =  new ArrayList<Shape>();
         setBackground(Color.white);
@@ -27,15 +40,27 @@ public class Drawing extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        for (Shape shape : shapes) {
-            shape.draw(g);
+        //till here
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("./resources/UBCMap.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Problem with image reading");
         }
+        g.drawImage(img,0,0,this);
+        // comment out above code
+
+        for (Shape shape : shapes) {
+            shape.draw(g);        }
         for (Shape block : gridBlocks) {
             block.draw(g);
         }
         for (Shape path : paths) {
             path.draw(g);
         }
+//        JSONArray arry = Jsonifier.shapeListtoJson(shapes);
+//        System.out.println(arry.toString());
     }
 
     // MODIFIES: this

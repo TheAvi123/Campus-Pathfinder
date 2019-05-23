@@ -12,10 +12,13 @@ import ui.tools.LineTool;
 import ui.tools.ObstacleTool;
 import ui.tools.Tool;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
