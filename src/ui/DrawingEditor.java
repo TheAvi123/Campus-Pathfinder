@@ -1,11 +1,10 @@
 package ui;
 
+import JSON.JsonFileIO;
 import exceptions.NoPathException;
 import exceptions.PointInObstacleException;
 import exceptions.PointOutOfBoundsException;
-import model.Drawing;
-import model.Obstacle;
-import model.Path;
+import model.*;
 import model.Shape;
 import model.gridPathfinding.Block;
 import model.gridPathfinding.Grid;
@@ -22,17 +21,22 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 // The ShortestPath GUI Application
 public class DrawingEditor extends JFrame {
-    public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
+    public int WIDTH = 1000;
+    public int HEIGHT = 1000;
     private List<Tool> tools;
     private Tool activeTool;
     private Drawing currentDrawing;
     private Grid grid;
+    public static File mapFile = new File("./resources/maze.png");
+//    public static File mapFile = new File("./resources/UBCMap.png");
+
+
 
     public static void main(String[] args) {
         DrawingEditor l = new DrawingEditor();
@@ -53,7 +57,16 @@ public class DrawingEditor extends JFrame {
 
     private void initializeGraphics() {
         setLayout(new BorderLayout());
-        setMinimumSize(new Dimension(WIDTH + 19, HEIGHT + 126));
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(mapFile);
+        } catch (IOException e) {
+            System.out.println("Could not readShapes image file");
+        }
+        HEIGHT = img.getHeight() + 500;
+        WIDTH = img.getWidth() + 50;
+        ImageRecognition ir = new ImageRecognition(true);
+        setMinimumSize(new Dimension(WIDTH + 19, HEIGHT + 150));
         setResizable(false);
         createTools();
         addNewDrawing();
@@ -205,6 +218,7 @@ public class DrawingEditor extends JFrame {
         } catch (PointOutOfBoundsException exception) {
             System.out.println("Given Point is Out of Bounds");
         }
+        System.out.println("x: " + e.getX() + "y: " + e.getY());
 
     }
 

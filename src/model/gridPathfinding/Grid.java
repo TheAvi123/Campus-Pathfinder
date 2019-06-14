@@ -12,7 +12,7 @@ public class Grid {
     DrawingEditor editor;
     Block[][] grid;
 
-    static final int blockRadius = 2;
+    static final int blockRadius = 1;
     int blockDiameter = blockRadius * 2;
     int worldWidth, worldHeight;
     int gridSizeX, gridSizeY;

@@ -1,17 +1,17 @@
 package model;
 
 import JSON.JsonFileIO;
-import JSON.Jsonifier;
-import org.json.JSONArray;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+
+import static JSON.JsonFileIO.jsonShapesData;
+import static ui.DrawingEditor.mapFile;
 
 public class Drawing extends JPanel {
 
@@ -22,7 +22,7 @@ public class Drawing extends JPanel {
     public Drawing() {
         super();
         try {
-            shapes = (ArrayList) JsonFileIO.read();
+            shapes = (ArrayList) JsonFileIO.readShapes();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -40,16 +40,14 @@ public class Drawing extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        //till here
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("./resources/UBCMap.png"));
+            img = ImageIO.read(mapFile);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Problem with image reading");
         }
-        g.drawImage(img,0,0,this);
-        // comment out above code
+//        g.drawImage(img,0,0,this);
 
         for (Shape shape : shapes) {
             shape.draw(g);        }
@@ -59,8 +57,17 @@ public class Drawing extends JPanel {
         for (Shape path : paths) {
             path.draw(g);
         }
-//        JSONArray arry = Jsonifier.shapeListtoJson(shapes);
-//        System.out.println(arry.toString());
+        JsonFileIO reader = new JsonFileIO();
+        try {
+            List<Point> list = reader.readImage();
+            for (Point p : list) {
+//                g.drawRect((int) p.getX(),(int) p.getY(),1,1);
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     // MODIFIES: this

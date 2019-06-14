@@ -1,7 +1,7 @@
 package ui.tools;
 
 import JSON.JsonFileIO;
-import JSON.Jsonifier;
+import JSON.ShapeJsonifier;
 import model.Obstacle;
 import ui.DrawingEditor;
 
@@ -40,7 +40,7 @@ public class ObstacleTool extends Tool {
     // EFFECTS: default behaviour does nothing
     public void mouseReleasedInDrawingArea(MouseEvent e) {
         editor.updateGrid();
-        System.out.println(Jsonifier.shapeToJson(obstacle));
+        System.out.println(ShapeJsonifier.shapeToJson(obstacle));
         try {
             JsonFileIO.add(obstacle);
         } catch (IOException e1) {

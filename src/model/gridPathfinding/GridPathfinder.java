@@ -1,7 +1,9 @@
 package model.gridPathfinding;
 
 import exceptions.NoPathException;
+import model.ImageRecognition;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -50,9 +52,9 @@ public class GridPathfinder {
 
             ArrayList<Block> neighbors = grid.findAdjacentBlocks(currentBlock);
             for (Block neighbor : neighbors) {
-
-                if(neighbor.isBlocked || closedBlocks.contains(neighbor)){
-                    continue; // this is really cool
+//                ImageRecognition ir = new ImageRecognition(false);
+                if(neighbor.isBlocked || closedBlocks.contains(neighbor)) {
+                    continue;
                 }
 
                 int newMoveCostToNeighbor = currentBlock.gCost + getDistanceBetween(currentBlock, neighbor);

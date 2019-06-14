@@ -1,7 +1,7 @@
 package ui.tools;
 
 import JSON.JsonFileIO;
-import JSON.Jsonifier;
+import JSON.ShapeJsonifier;
 import model.Obstacle;
 import ui.DrawingEditor;
 
@@ -48,7 +48,7 @@ public class DeleteObstacleTool extends Tool {
     public void mouseReleasedInDrawingArea(MouseEvent e) {
         if (obstacletoDelete != null) {
             editor.removeFromDrawing(obstacletoDelete);
-            System.out.println(Jsonifier.shapeToJson(obstacletoDelete));
+            System.out.println(ShapeJsonifier.shapeToJson(obstacletoDelete));
             try {
                 JsonFileIO.remove(obstacletoDelete);
             } catch (IOException e1) {

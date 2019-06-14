@@ -7,8 +7,8 @@ public abstract class Shape {
     protected Color color;
     protected int x;
     protected int y;
-    protected int x2; // width for obstacle
-    protected int y2; // height for obstacle
+    protected int x2; // width of obstacle
+    protected int y2; // height of obstacle
 
     public Shape(Color color, int x, int y, int x2, int y2) {
         this.x = x;

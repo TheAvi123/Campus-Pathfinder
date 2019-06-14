@@ -7,7 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
-public class Jsonifier {
+public class ShapeJsonifier {
     //turns shapes into json array
     public static JSONArray shapeListtoJson(List<Shape> shapes) {
         JSONArray obsList = new JSONArray();

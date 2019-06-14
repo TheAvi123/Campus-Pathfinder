@@ -28,7 +28,7 @@ public class Obstacle extends Shape {
 
     @Override
     public boolean contains(Point p) {
-        return ((p.getX() > x && p.getX() < (x + x2)) && (p.getY() > y && p.getY() < (y + y2)));
+        return ((p.getX() >= x && p.getX() < (x + x2)) && (p.getY() >= y && p.getY() < (y + y2)));
     }
 
     public void setStartBound(Point p) {
