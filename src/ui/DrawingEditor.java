@@ -64,9 +64,9 @@ public class DrawingEditor extends JFrame {
             System.out.println("Could not readShapes image file");
         }
         HEIGHT = img.getHeight() + 500;
-        WIDTH = img.getWidth() + 50;
+        WIDTH = img.getWidth() + 500;
         ImageRecognition ir = new ImageRecognition(true);
-        setMinimumSize(new Dimension(WIDTH + 19, HEIGHT + 150));
+        setMinimumSize(new Dimension(WIDTH + 19, HEIGHT + 10));
         setResizable(false);
         createTools();
         addNewDrawing();

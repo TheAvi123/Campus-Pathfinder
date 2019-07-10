@@ -57,9 +57,9 @@ public class ImageRecognition {
             int width = img.getWidth() ;
             for (int y = 0; y < height; y++) {
                 for (int x = 0; x < width; x++) {
-                    if (shapes.size() == 10) {
-                        System.out.println("test");
-                    }
+//                    if (shapes.size() == 10) {
+//                        System.out.println("test");
+//                    }
 
                         if (isBlack(x, y)) {
                             if (notInShape(x, y)) {
@@ -144,11 +144,15 @@ public class ImageRecognition {
         int g = (rgb >> 8) & 0xFF;
         int b = (rgb) & 0xFF;
         Color.RGBtoHSB(r, g, b, hsb);
-        return (hsb[2] < .5);
-        //                    else {
+        if (r == 204 && g == 217 && b == 225) {
+            return true;
+        }
+        return false;
+//        return (hsb[2] < .5);
+//                            else {
 //                        float deg = hsb[0] * 360;
 //                        if ((deg >= 0 && deg < 30) || (deg >= 330 && deg <= 360)){   buildings.add(new Point(w, h));}
-
+//
 //                        else if (deg >= 30 && deg < 90) yellow();
 //                        else if (deg >= 90 && deg < 150) green();
 //                        else if (deg >= 150 && deg < 210) cyan();
